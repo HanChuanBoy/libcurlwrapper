@@ -13,6 +13,7 @@ void*c_aml_malloc(unsigned int size) {
 	return ptr;
 }
 
+
 void *c_aml_realloc(void *ptr, unsigned int size)
 {
     return realloc(ptr, size);
@@ -50,6 +51,19 @@ void *c_aml_mallocz(unsigned int size) {
 	}
 	return ptr;
 }
+
+int c_aml_strstart(const char *str, const char *pfx, const char **ptr)
+{
+    while (*pfx && *pfx == *str) {
+        pfx++;
+        str++;
+    }
+    if (!*pfx && ptr) {
+        *ptr = str;
+    }
+    return !*pfx;
+}
+
 
 /***
   汇编中的x ptr//x指的类型,ptr对应的是地址值;
@@ -131,7 +145,7 @@ size_t c_aml_strlcat(char *dst, const char *src, size_t size)
     if (size <= len + 1) {
         return len + strlen(src);
     }
-    return len + av_strlcpy(dst + len, src, size - len);
+    return len + c_aml_strlcpy(dst + len, src, size - len);
 }
 
 

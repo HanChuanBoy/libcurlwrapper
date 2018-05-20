@@ -2,7 +2,7 @@ include $(STB_SDK_PATH)/learnning/learning-curl/build.cfg
 M_PREFIX=$(LIBPLAYER_STAGING_DIR)/usr
 ROOTFS?=$(M_PREFIX)
 LIB_DIR?=$(M_PREFIX)/lib
-HEADERS_DIR?=$(M_PREFIX)/include
+HEADERS_DIR?=$(M_PREFIX)/curl_include
 
 TARGET_OBJS=curl_aml_common.o
 
@@ -13,23 +13,24 @@ TOPDIR=$(shell pwd)
 SRC?=$(TOPDIR)
 
 CFLAGS+=-O2 -fPIC
-CFLAGS+= -I$(SRC)/../include -I$(SRC)/../../../amffmpeg/ -I$(SRC)/../../../amffmpeg/libavutil/ 
-LDFLAGS+= -L$(SDK_LIB_PATH)/libplayer -lavutil -lavformat -lavcodec -lm -L$(SDK_LIB_PATH)/graphlib -lz -L$(SDK_LIB_PATH)/sdklib -lpthread -lamcodec -ldl -lamplayer -lamadec -lasound -lamstreaming  -lamavutils -lrt -lstdc++ -lcurl 
+CFLAGS+= -I$(SRC)/../curl_include -I$(SRC)/../../../amffmpeg/ -I$(SRC)/../../../amffmpeg/libavutil/ 
+LDFLAGS+= -L$(SDK_LIB_PATH)/libplayer -lm  -lz  -ldl
 #AR =$(STAGING_DIR)/../../bin/arm-linux-gnueabihf-ar
 export CC CFLAGS
 all: $(TARGET) 
-	$(STRIP) $(TARGET)
-#	$(MAKE) install
+	#$(STRIP) $(TARGET)
+	#$(MAKE) install
 	
 $(TARGET): $(TARGET_OBJS)
-	$(AR) cq $(TARGET) $(TARGET_OBJS)
+	echo $(AR)
+	$(AR) -rcs $(TARGET) curl_aml_common.o 
 	
 $(TARGET_OBJS):%.o:%.c
 	$(CC) $(CFLAGS) $(LDFLAGS) -c -o $@ $<
 	
 install:
 	#-install -m 555 ${TARGET} $(INSTALL_LIB_DIR)
-	cp	-rf $(SRC)/../include/*.h  $(HEADERS_DIR)/
+	cp	-rf $(SRC)/../curl_include/*.h  $(HEADERS_DIR)/
 
 force:
 

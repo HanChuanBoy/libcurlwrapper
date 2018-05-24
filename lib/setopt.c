@@ -454,7 +454,9 @@ CURLcode Curl_vsetopt(struct Curl_easy *data, CURLoption option,
     data->set.allow_auth_to_other_hosts =
       (0 != va_arg(param, long)) ? TRUE : FALSE;
     break;
-
+  /*
+     set max hops 最大跳点：路由的经过点
+  */
   case CURLOPT_MAXREDIRS:
     /*
      * The maximum amount of hops you allow curl to follow Location:

@@ -12,13 +12,13 @@ INSTALL_DIR=${LIB_DIR}/libplayer/
 TOPDIR=$(shell pwd)
 SRC?=$(TOPDIR)
 
-CFLAGS+=-O2 -fPIC
-CFLAGS+= -I$(SRC)/../curl_include
-LDFLAGS+= -L$(SDK_LIB_PATH)/libplayer -Wl,-Bstatic -lcurl_aml_common -Wl,-Bdynamic -lm -lz -ldl -lrt
+CFLAGS+=-O2 -g -fPIC
+CFLAGS+= -g -I$(SRC)/../curl_include -I$(SRC)/../H264dec_Include 
+LDFLAGS+= -L$(SDK_LIB_PATH)/libplayer -Wl,-Bstatic -lcurl_aml_common -lvlc -Wl,-Bdynamic -lm -lz -ldl -lrt
 #AR =$(STAGING_DIR)/../../bin/arm-linux-gnueabihf-ar
 
 all: $(TARGET) 
-	$(STRIP) $(TARGET)
+#	$(STRIP) $(TARGET)
 #	$(MAKE) install
 $(TARGET): $(TARGET_OBJS)
 	$(CC) $(CFLAGS)  $< -o $@ $(LDFLAGS)

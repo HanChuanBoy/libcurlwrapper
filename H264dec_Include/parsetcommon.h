@@ -163,6 +163,15 @@ typedef struct
   Boolean   constrained_set2_flag;                            // u(1)
   unsigned  level_idc;                                        // u(8)
   unsigned  seq_parameter_set_id;                             // ue(v)
+   unsigned  int chroma_format_idc;                                // ue(v)
+  Boolean   seq_scaling_matrix_present_flag;                   // u(1)
+  int       seq_scaling_list_present_flag[12];                 // u(1)
+  int       ScalingList4x4[6][16];                             // se(v)
+  int       ScalingList8x8[6][64];                             // se(v)
+  Boolean   UseDefaultScalingMatrix4x4Flag[6];
+  Boolean   UseDefaultScalingMatrix8x8Flag[6];
+  unsigned int bit_depth_luma_minus8;                            // ue(v)
+  unsigned int bit_depth_chroma_minus8;                          // ue(v)
   unsigned  log2_max_frame_num_minus4;                        // ue(v)
   unsigned pic_order_cnt_type;
   // if( pic_order_cnt_type == 0 ) 
@@ -189,6 +198,8 @@ typedef struct
     unsigned  frame_cropping_rect_bottom_offset;              // ue(v)
   Boolean   vui_parameters_present_flag;                      // u(1)
     vui_seq_parameters_t vui_seq_parameters;                  // vui_seq_parameters_t
+    unsigned  separate_colour_plane_flag;                       // u(1)
+    int lossless_qpprime_flag;
 } seq_parameter_set_rbsp_t;
 
 pic_parameter_set_rbsp_t *AllocPPS ();
